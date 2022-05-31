@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+	int int1;
+	int int2;
+	int sum;
+
+	printf( "Nhap so nguyen dau tien\n" );
+	scanf("%d",&int1);
+	printf( "Nhap so nguyen thu hai\n" );
+	scanf("%d",&int2);
+	sum = int1 + int2;
+	printf("Tong bang :%d\n", sum);
+return 0;
+}
