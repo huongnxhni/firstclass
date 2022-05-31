@@ -72,12 +72,7 @@ for(i=0;i<rows.length-1;i++){
 	}
 return dsketqua;
 
-
-/////////
-
-
-
-//// 4800
+///// Cobas4800
 
 var Obketquamay = [];
 var dsketqua = [];
