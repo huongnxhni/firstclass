@@ -1,0 +1,289 @@
+var Obketquamay = [];
+var dsketqua = [];
+var mydata = data.replace(/^\s*[\r\n]/gm, '');
+if(mydata.indexOf("\r")!=-1)
+    {
+        var rows = mydata.split("\r");
+    }else  {var rows = mydata.split("\n"); }
+myStt = '';
+for(i=0;i<rows.length-1;i++){
+	if (rows[i].indexOf("ORC")!=-1) myStt = rows[i].split("|")[2].trim();
+	
+	     if(rows[i].indexOf("OBX|")!=-1){
+		Obketquamay = [];
+		rows[i] = rows[i].trim();
+		var cols = rows[i].split("|");
+		if(rows[i].indexOf("SAR-TG1")!=-1) { var kq1 = cols[5]};
+		if (rows[i].indexOf("SAR-TG2")!=-1) {var kq2 = cols[5]};
+		if (rows[i].indexOf("TG1-Ct")!=-1) { var kq3 = cols[5]};
+		if (rows[i].indexOf("TG2-Ct")!=-1) { var kq4 = cols[5]};
+		
+        var ma_xn = cols[3];
+		var kq = cols[5];
+		if ( ma_xn == "PCR-HBV" || ma_xn == "PCR-HIV1" || ma_xn == "PCR-HCV") {
+			if ( kq == "ND") { kq = "Kh\u00F4ng ph\u00E1t hi\u1EC7n \u0111\u01B0\u1EE3c" };
+			if ( kq == "<10" || kq == "<15" || kq == "<20") { kq = "D\u01B0\u1EDBi ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n"};
+			if ( kq == ">1000000000" ) { kq = "Tr\u00EAn ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n"};
+	        else  {
+		  var somu = kq.length-2 ;
+		  var kkq = kq.substring(0,3);
+		  var kkkq = parseFloat(kkq)*0.01;
+		  kq = kkkq + "x10^" + somu;
+		  }
+		}
+
+	
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = ma_xn;
+		Obketquamay.ketqua = kq;
+		dsketqua.push(Obketquamay);   
+
+		if( kq1 == "NEG" && kq2 == "NEG") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "\u00C2m t\u00EDnh";
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "POS" && kq2 == "POS") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "D\u01B0\u01A1ng t\u00EDnh" + kq4;
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "NEG" && kq2 == "POS") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "Y\u00EAu c\u1EA7u l\u1EA5y m\u1EABu ki\u1EC3m tra l\u1EA1i sau 24h";
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "POS" && kq2 == "NEG") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "D\u01B0\u01A1ng t\u00EDnh" + kq3;
+		dsketqua.push(Obketquamay);
+		}
+
+		
+		}
+	}
+return dsketqua;
+
+
+/////////
+
+
+
+//// 4800
+
+var Obketquamay = [];
+var dsketqua = [];
+data = data.substring(data.indexOf("")+1,data.length); 
+if(data.indexOf("") != -1){ 	   
+	var count = data.split("").length-1; 	  
+	for(i = 0; i < count; i++){ 	 	  
+		var data_rep = data.substring(data.indexOf(""), data.indexOf("")+2); 	  
+		data = data.replace(data_rep,"");  	  
+	}
+}  
+var myData = data.split("\r");
+myStt = "";
+for(i=0;i<myData.length;i++){
+		Obketquamay = [];
+		var rows = myData[i].split("|");
+		if(rows[0].indexOf("O") != -1){
+			myStt = rows[2].split("^")[0];
+		}
+	    if(rows[0].indexOf("R")!=-1){
+		var index = rows[2].split("^")[3];
+		var kq = rows[3].split("")[0];
+	                  
+     if( kq == "T" )  
+		   { result = "Kh\u00F4ng ph\u00E1t hi\u1EC7n \u0111\u01B0\u1EE3c";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = index;		
+			Obketquamay.ketqua = result;
+			dsketqua.push(Obketquamay);
+		   } 
+		else if( kq == ">" )  
+		    { result = " Tr\u00EAn ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = index;		
+			Obketquamay.ketqua = result;
+			dsketqua.push(Obketquamay);
+			} 
+		else if( kq == "<" ) 
+		    {result =  " D\u01B0\u1EDBi ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = index;		
+			Obketquamay.ketqua = result;
+			dsketqua.push(Obketquamay);
+			}
+		else {
+		  var somu = parseFloat(rows[3].split("E+")[1]);
+		  var result =rows[3].split("E+")[0] +"x10^"+ somu;		
+		if(index == "0CHBV") {
+		  result1 = ((rows[3].split("E+")[0])*0.582).toFixed(2) +"x10^"+ (somu+1);
+			Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+                                                                        Obketquamay.ma_xn_may = "0CHBVcp";                   
+                                                                        Obketquamay.ketqua = result1;
+                                                                         dsketqua.push(Obketquamay);
+			
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = index;		
+			Obketquamay.ketqua = result;
+			dsketqua.push(Obketquamay);
+
+                                                                        Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+                                                                        Obketquamay.ma_xn_may = "NGUONGPH";                   
+                                                                        Obketquamay.ketqua = ">58.2";
+                                                                        dsketqua.push(Obketquamay);
+                                            
+                                                                       
+                                                                        
+		
+		}
+		
+		
+		if(index == "0BHIV1") {
+		                        Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = index;		
+			Obketquamay.ketqua = result;
+			dsketqua.push(Obketquamay);
+
+
+                                                                        Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+                                                                        Obketquamay.ma_xn_may = "NGUONGPH";                   
+                                                                        Obketquamay.ketqua = ">20";
+                                                                        dsketqua.push(Obketquamay);
+
+                                                                       
+                                                                        
+        
+	                        }
+		}		     
+		}
+	                        }
+return dsketqua;
+
+
+
+////////////// Cũ
+var Obketquamay = [];
+var dsketqua = [];
+var mydata = data.replace(/^\s*[\r\n]/gm, '');
+if(mydata.indexOf("\r")!=-1)
+    {
+     var rows = mydata.split("\r");
+    }else  {var rows = mydata.split("\n"); }
+myStt = '';
+for(i=0;i<rows.length-1;i++){
+	if (rows[i].indexOf("ORC")!=-1) myStt = rows[i].split("|")[2].trim();	
+	     if(rows[i].indexOf("OBX|")!=-1){		
+		rows[i] = rows[i].trim();
+		var cols = rows[i].split("|");
+		if(rows[i].indexOf("SAR-TG1")!=-1) { var kq1 = cols[5]};
+		if (rows[i].indexOf("SAR-TG2")!=-1) {var kq2 = cols[5]};
+		if (rows[i].indexOf("TG1-Ct")!=-1) { var kq3 = cols[5]};
+		if (rows[i].indexOf("TG2-Ct")!=-1) { var kq4 = cols[5]};		
+       	 	var ma_xn = cols[3];
+		var kq = cols[5];		
+		if( kq == "ND" )  
+		   { kq = "Kh\u00F4ng ph\u00E1t hi\u1EC7n \u0111\u01B0\u1EE3c";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;
+			Obketquamay.ketqua = kq;
+			dsketqua.push(Obketquamay);
+		   } 
+		else if( kq == "<10" || kq == "<15" || kq == "<20" || kq == "<33")  
+		   { kq = "D\u01B0\u1EDBi ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;
+			Obketquamay.ketqua = kq;
+			dsketqua.push(Obketquamay);
+		   }
+		else if( kq == ">1000000000")  
+		   { kq = "Tr\u00EAn ng\u01B0\u1EE1ng ph\u00E1t hi\u1EC7n";
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;
+			Obketquamay.ketqua = kq;
+			dsketqua.push(Obketquamay);
+		   }		
+		else {
+		var kqi = parseInt(kq,10);
+		var kqc = parseInt(kqi*5.82,10);
+		var kqc1 = kqc.toExponential(2);
+		var kqi1 = kqi.toExponential(2);
+		  var somu_i = parseFloat(kqi1.split("e+")[1]);
+		  var somu_c = parseFloat(kqc1.split("e+")[1]);
+		  var kq_i = kqi1.split("e+")[0] + "x10^" + somu_i;
+		  var kq_c = kqc1.split("e+")[0] +"x10^" + somu_c;
+		if (ma_xn == "PCR-HBV") {
+		  	Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+           			Obketquamay.ma_xn_may = "PCR-HBVcp";                   
+            			Obketquamay.ketqua = kq_c;
+            			dsketqua.push(Obketquamay);			
+			Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;		
+			Obketquamay.ketqua = kq_i;
+			dsketqua.push(Obketquamay);		  	
+		}
+		if (ma_xn == "PCR-HCV") {
+		  	Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+            			Obketquamay.ma_xn_may = "PCR-HCVcp";                   
+            			Obketquamay.ketqua = kq_c;
+            			dsketqua.push(Obketquamay);
+			
+			Obketquamay = new Object();
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;		
+			Obketquamay.ketqua = kq_i;
+			dsketqua.push(Obketquamay);		  	
+		}		
+		if (ma_xn == "PCR-HIV1") {		  	
+			Obketquamay.stt = myStt;
+			Obketquamay.ma_xn_may = ma_xn;		
+			Obketquamay.ketqua = kq_i;
+			dsketqua.push(Obketquamay);		  	
+		}		
+		}
+		if( kq1 == "NEG" && kq2 == "NEG") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "\u00C2m t\u00EDnh";
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "POS" && kq2 == "POS") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "D\u01B0\u01A1ng t\u00EDnh" + " " + kq4;
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "NEG" && kq2 == "POS") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "Y\u00EAu c\u1EA7u l\u1EA5y m\u1EABu ki\u1EC3m tra l\u1EA1i sau 24h";
+		dsketqua.push(Obketquamay);
+		}
+		if( kq1 == "POS" && kq2 == "NEG") { 
+		Obketquamay = new Object();
+		Obketquamay.stt = myStt;
+		Obketquamay.ma_xn_may = "SARCOV2";
+		Obketquamay.ketqua = "D\u01B0\u01A1ng t\u00EDnh" + " " + kq3;
+		dsketqua.push(Obketquamay);
+		}		
+		}
+	}
+return dsketqua;
